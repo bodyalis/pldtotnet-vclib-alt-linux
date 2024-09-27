@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Authors>Shay Rojansky;Nikita Kazmin;Brar Piening;Yoh Deadfall;;Austin Drenski;Emil Lenngren;Francisco Figueiredo Jr.;Kenji Uno</Authors>
+    <Description>Npgsql is the open source .NET data provider for PostgreSQL.</Description>
+    <PackageTags>npgsql;postgresql;postgres;ado;ado.net;database;sql</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- At this point we target netcoreapp3.1 to avoid taking a dependency on System.Text.Json, which is
+         necessary for older TFMs. -->
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(DeveloperBuild)' == 'True'">net6.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="NpgsqlTypes\**" />
+    <Compile Remove="NpgsqlTypes\**" />
+    <EmbeddedResource Remove="NpgsqlTypes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\TypeHandlers/PlDotNET.Handlers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Npgsql.SourceGenerators/Npgsql.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.Bcl.HashCode" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1' ">
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="System.Threading.Channels" />
+    <PackageReference Include="System.Collections.Immutable" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net6.0' ">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\NpgsqlStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NpgsqlStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\NpgsqlStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NpgsqlStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

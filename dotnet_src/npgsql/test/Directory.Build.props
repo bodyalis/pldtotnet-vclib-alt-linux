@@ -1,0 +1,17 @@
+﻿<Project>
+  <Import Project="../Directory.Build.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(DeveloperBuild)' == 'True'">net6.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+
+    <!-- Suppress warnings for [RequiresPreviewFeatures] (<EnablePreviewFeatures> doesn't seem to work across <ProjectReference>) -->
+    <NoWarn>$(NoWarn);CA2252</NoWarn>
+    <NoWarn>$(NoWarn);CS8002</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitHubActionsTestLogger" />
+  </ItemGroup>
+</Project>
